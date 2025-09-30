@@ -5,14 +5,25 @@
         <link rel="manifest" href="manifest.json">
     </head>
     <body>
-        <div id="speed">0</div>
+
+        <table>
+            <tr><td id="kmh">0</td><td>km/h</td></tr>
+            <tr><td id="mph">0</td><td>mph</td></tr>
+            <tr><td id="ms">0</td><td>m/s</td></tr>
+            <tr><td id="knots">0</td><td>knots</td></tr>
+        </table>
+
         <script>
         if('serviceWorker' in navigator){
             navigator.serviceWorker.register('worker.js').catch(() => { });
         }
 
         navigator.geolocation.watchPosition((p) => {
-            document.getElementById('speed').textContent = p.coords.speed!==null?Math.round(p.coords.speed*3.6):0;
+            const ms = p.coords.speed !== null ? p.coords.speed : 0;
+            document.getElementById('kmh').textContent = Math.round(ms * 3.6);
+            document.getElementById('mph').textContent = Math.round(ms * 2.237);
+            document.getElementById('ms').textContent = Math.round(ms * 10) / 10;
+            document.getElementById('knots').textContent = Math.round(ms * 1.944);
         }, () => { }, {enableHighAccuracy:true});
         </script>
     </body>
