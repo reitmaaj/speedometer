@@ -3,7 +3,6 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="manifest.json">
-
         <style>
         * {
             margin: 0;
@@ -16,51 +15,49 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: #ffffff;
-            color: #000000;
+            background: #fff;
+            color: #000;
         }
         @media (prefers-color-scheme: dark) {
             body {
-                background: #000000;
-                color: #ffffff;
+                background: #000;
+                color: #fff;
             }
             table {
-                border-color: #333333;
+                border-color: #333;
             }
             td {
-                border-color: #333333;
+                border-color: #333;
             }
         }
         table {
             border-collapse: collapse;
             font-size: 2rem;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #ddd;
         }
         td {
             padding: 1rem 2rem;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #ddd;
         }
         td:first-child {
-            font-weight: 300;
-            opacity: 0.7;
-        }
-        td:last-child {
             font-weight: 600;
             text-align: right;
             font-variant-numeric: tabular-nums;
+            min-width: 7ch;
+        }
+        td:last-child {
+            font-weight: 300;
+            opacity: 0.7;
         }
         </style>
-
     </head>
     <body>
-
         <table>
-            <tr><td id="kmh">0</td><td>km/h</td></tr>
-            <tr><td id="mph">0</td><td>mph</td></tr>
-            <tr><td id="ms">0</td><td>m/s</td></tr>
-            <tr><td id="knots">0</td><td>knots</td></tr>
+            <tr><td id="kmh">0.00</td><td>km/h</td></tr>
+            <tr><td id="mph">0.00</td><td>mph</td></tr>
+            <tr><td id="ms">0.00</td><td>m/s</td></tr>
+            <tr><td id="knots">0.00</td><td>knots</td></tr>
         </table>
-
         <script>
         if('serviceWorker' in navigator){
             navigator.serviceWorker.register('worker.js').catch(() => { });
@@ -68,11 +65,12 @@
 
         navigator.geolocation.watchPosition((p) => {
             const ms = p.coords.speed !== null ? p.coords.speed : 0;
-            document.getElementById('kmh').textContent = Math.round(ms * 3.6);
-            document.getElementById('mph').textContent = Math.round(ms * 2.237);
-            document.getElementById('ms').textContent = Math.round(ms * 10) / 10;
-            document.getElementById('knots').textContent = Math.round(ms * 1.944);
-        }, () => { }, {enableHighAccuracy:true});
+            document.getElementById('kmh').textContent = (ms * 3.6).toFixed(2);
+            document.getElementById('mph').textContent = (ms * 2.237).toFixed(2);
+            document.getElementById('ms').textContent = ms.toFixed(2);
+            document.getElementById('knots').textContent = (ms * 1.944).toFixed(2);
+        }, () => {}, {enableHighAccuracy:true});
         </script>
     </body>
 </html>
+
