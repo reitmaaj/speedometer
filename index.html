@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="manifest.json">
+    </head>
+    <body>
+        <div id="speed">0</div>
+        <script>
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('worker.js').catch(() => { });
+        }
+
+        navigator.geolocation.watchPosition((p) => {
+            document.getElementById('speed').textContent = p.coords.speed!==null?Math.round(p.coords.speed*3.6):0;
+        }, {enableHighAccuracy:true});
+        </script>
+    </body>
+</html>
