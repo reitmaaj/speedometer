@@ -13,7 +13,7 @@
 
         navigator.geolocation.watchPosition((p) => {
             document.getElementById('speed').textContent = p.coords.speed!==null?Math.round(p.coords.speed*3.6):0;
-        }, {enableHighAccuracy:true});
+        }, () => { }, {enableHighAccuracy:true});
         </script>
     </body>
 </html>
